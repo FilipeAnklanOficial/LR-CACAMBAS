@@ -35,7 +35,16 @@ public class MovimentacaoCacambaRepository {
         return movimentacaoCacambaDao.listarPorCacamba(idCacamba);
     }
 
-    public MovimentacaoCacamba buscarMovimentacaoAtiva(Long idCacamba) {
-        return movimentacaoCacambaDao.buscarMovimentacaoAtiva(idCacamba);
+    public MovimentacaoCacamba buscarMovimentacaoAtivaPorLocacao(Long idLocacao) {
+        return movimentacaoCacambaDao.buscarMovimentacaoAtivaPorLocacao(idLocacao);
     }
+
+    public MovimentacaoCacamba buscarMovimentacaoAtivaPorCacamba(Long idCacamba) {
+        return movimentacaoCacambaDao.buscarMovimentacaoAtivaPorCacamba(idCacamba);
+    }
+
+    public int contarMovimentacoesAtivasPorCacamba(Long idCacamba) {
+        return movimentacaoCacambaDao.contarMovimentacoesAtivasPorCacamba(idCacamba);
+    }
+
 }

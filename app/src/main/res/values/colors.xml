@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="amarelo_principal">#FFD43B</color>
+    <color name="azul_marinho">#082B50</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="preto">#222222</color>
+    <color name="cinza_fundo">#F5F5F5</color>
 </resources>

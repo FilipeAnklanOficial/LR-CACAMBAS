@@ -29,7 +29,7 @@ import com.lrcacambas.data.local.dao.DespesaDao;
                 Recebimento.class,
                 Despesa.class
         },
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 

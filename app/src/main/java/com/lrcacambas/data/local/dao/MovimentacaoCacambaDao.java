@@ -27,6 +27,18 @@ public interface MovimentacaoCacambaDao {
     @Query("SELECT * FROM movimentacoes_cacamba WHERE idCacamba = :idCacamba ORDER BY dataEntrega DESC")
     List<MovimentacaoCacamba> listarPorCacamba(Long idCacamba);
 
-    @Query("SELECT * FROM movimentacoes_cacamba WHERE idCacamba = :idCacamba AND dataRetirada IS NULL LIMIT 1")
-    MovimentacaoCacamba buscarMovimentacaoAtiva(Long idCacamba);
+    @Query("SELECT * FROM movimentacoes_cacamba " +
+            "WHERE idLocacao = :idLocacao " +
+            "AND dataRetirada IS NULL LIMIT 1")
+    MovimentacaoCacamba buscarMovimentacaoAtivaPorLocacao(Long idLocacao);
+
+    @Query("SELECT * FROM movimentacoes_cacamba " +
+            "WHERE idCacamba = :idCacamba " +
+            "AND dataRetirada IS NULL LIMIT 1")
+    MovimentacaoCacamba buscarMovimentacaoAtivaPorCacamba(Long idCacamba);
+
+    @Query("SELECT COUNT(*) FROM movimentacoes_cacamba " +
+            "WHERE idCacamba = :idCacamba " +
+            "AND dataRetirada IS NULL")
+    int contarMovimentacoesAtivasPorCacamba(Long idCacamba);
 }

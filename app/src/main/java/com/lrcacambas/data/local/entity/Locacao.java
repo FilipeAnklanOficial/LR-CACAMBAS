@@ -53,6 +53,7 @@ public class Locacao {
     private String justificativaAjuste;
     private LocalDate dataFinalizacao;
     private String observacoes;
+    private Long valorTotalCalculado;
 
     public Locacao() {
     }
@@ -183,5 +184,13 @@ public class Locacao {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
+    }
+
+    public Long getValorTotalCalculado() {
+        return valorTotalCalculado;
+    }
+
+    public void setValorTotalCalculado(Long valorTotalCalculado) {
+        this.valorTotalCalculado = valorTotalCalculado;
     }
 }
