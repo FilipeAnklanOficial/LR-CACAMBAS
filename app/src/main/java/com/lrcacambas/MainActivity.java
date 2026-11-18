@@ -1,6 +1,8 @@
 package com.lrcacambas;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -13,12 +15,42 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         WindowCompat.enableEdgeToEdge(getWindow());
+
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+
+        View root = findViewById(R.id.main);
+
+        int paddingLeft = root.getPaddingLeft();
+        int paddingTop = root.getPaddingTop();
+        int paddingRight = root.getPaddingRight();
+        int paddingBottom = root.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+
+            Insets systemBars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+            );
+
+            v.setPadding(
+                    paddingLeft + systemBars.left,
+                    paddingTop + systemBars.top,
+                    paddingRight + systemBars.right,
+                    paddingBottom + systemBars.bottom
+            );
+
             return insets;
+        });
+
+        // Navegação para Clientes
+        findViewById(R.id.btnClientes).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    ClientesActivity.class
+            );
+
+            startActivity(intent);
         });
     }
 }

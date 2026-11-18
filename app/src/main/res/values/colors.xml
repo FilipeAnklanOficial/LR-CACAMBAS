@@ -5,4 +5,5 @@
     <color name="branco">#FFFFFF</color>
     <color name="preto">#222222</color>
     <color name="cinza_fundo">#F5F5F5</color>
+    <color name="cinza_hint">#666666</color>
 </resources>

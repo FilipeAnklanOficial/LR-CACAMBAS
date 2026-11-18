@@ -6,7 +6,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/branco"
+    android:background="@color/amarelo_principal"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
     android:padding="24dp"
     tools:context=".MainActivity">
 
@@ -16,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="LR Caçambas"
         android:textColor="@color/azul_marinho"
-        android:textSize="28sp"
+        android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,12 +28,12 @@
     <Button
         android:id="@+id/btnClientes"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="76dp"
         android:text="Clientes"
-        android:textColor="@color/azul_marinho"
-        android:textSize="18sp"
+        android:textColor="@color/branco"
+        android:textSize="21sp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/amarelo_principal"
+        android:backgroundTint="@color/azul_marinho"
         app:layout_constraintTop_toBottomOf="@id/txtTitulo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,57 +42,57 @@
     <Button
         android:id="@+id/btnLocacoes"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="76dp"
         android:text="Locações"
-        android:textColor="@color/azul_marinho"
-        android:textSize="18sp"
+        android:textColor="@color/branco"
+        android:textSize="21sp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/amarelo_principal"
+        android:backgroundTint="@color/azul_marinho"
         app:layout_constraintTop_toBottomOf="@id/btnClientes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btnRecebimentos"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="76dp"
         android:text="Recebimentos"
-        android:textColor="@color/azul_marinho"
-        android:textSize="18sp"
+        android:textColor="@color/branco"
+        android:textSize="21sp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/amarelo_principal"
+        android:backgroundTint="@color/azul_marinho"
         app:layout_constraintTop_toBottomOf="@id/btnLocacoes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btnCacambas"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="76dp"
         android:text="Caçambas"
-        android:textColor="@color/azul_marinho"
-        android:textSize="18sp"
+        android:textColor="@color/branco"
+        android:textSize="21sp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/amarelo_principal"
+        android:backgroundTint="@color/azul_marinho"
         app:layout_constraintTop_toBottomOf="@id/btnRecebimentos"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btnDespesas"
         android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_height="76dp"
         android:text="Despesas"
-        android:textColor="@color/azul_marinho"
-        android:textSize="18sp"
+        android:textColor="@color/branco"
+        android:textSize="21sp"
         android:textAllCaps="false"
-        android:backgroundTint="@color/amarelo_principal"
+        android:backgroundTint="@color/azul_marinho"
         app:layout_constraintTop_toBottomOf="@id/btnCacambas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

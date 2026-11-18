@@ -18,16 +18,14 @@ public class ClienteService {
         validarCliente(cliente);
 
         cliente.setNome(cliente.getNome().trim());
-        cliente.setTelefone(cliente.getTelefone().trim());
+        cliente.setTelefone(normalizarDigitos(cliente.getTelefone()));
         cliente.setAtivo(true);
 
-        if (cliente.getDocumento() != null) {
-            cliente.setDocumento(cliente.getDocumento().trim());
+        String documento = normalizarDigitos(cliente.getDocumento());
 
-            if (cliente.getDocumento().isEmpty()) {
-                cliente.setDocumento(null);
-            }
-        }
+        cliente.setDocumento(
+                documento.isEmpty() ? null : documento
+        );
 
         if (cliente.getApelido() != null) {
             cliente.setApelido(cliente.getApelido().trim());
@@ -51,15 +49,13 @@ public class ClienteService {
         }
 
         cliente.setNome(cliente.getNome().trim());
-        cliente.setTelefone(cliente.getTelefone().trim());
+        cliente.setTelefone(normalizarDigitos(cliente.getTelefone()));
 
-        if (cliente.getDocumento() != null) {
-            cliente.setDocumento(cliente.getDocumento().trim());
+        String documento = normalizarDigitos(cliente.getDocumento());
 
-            if (cliente.getDocumento().isEmpty()) {
-                cliente.setDocumento(null);
-            }
-        }
+        cliente.setDocumento(
+                documento.isEmpty() ? null : documento
+        );
 
         if (cliente.getApelido() != null) {
             cliente.setApelido(cliente.getApelido().trim());
@@ -69,6 +65,7 @@ public class ClienteService {
             }
         }
 
+        cliente.setAtivo(true);
         clienteRepository.atualizar(cliente);
     }
 
@@ -82,8 +79,11 @@ public class ClienteService {
     }
 
     public List<Cliente> buscarPorNome(String nome) {
+
         if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("Informe nome, sobrenome ou apelido para pesquisar.");
+            throw new IllegalArgumentException(
+                    "Informe nome, sobrenome ou apelido para pesquisar."
+            );
         }
 
         return clienteRepository.buscarPorNome(nome.trim());
@@ -110,7 +110,7 @@ public class ClienteService {
         }
 
         if (cliente.getTelefone() == null ||
-                cliente.getTelefone().trim().isEmpty()) {
+                normalizarDigitos(cliente.getTelefone()).isEmpty()) {
             throw new IllegalArgumentException(
                     "O telefone do cliente é obrigatório."
             );
@@ -124,5 +124,14 @@ public class ClienteService {
                     "Identificador do cliente inválido."
             );
         }
+    }
+
+    private String normalizarDigitos(String valor) {
+
+        if (valor == null) {
+            return "";
+        }
+
+        return valor.replaceAll("\\D", "");
     }
 }

@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">LR Cacambas</string>
+    <string name="app_name">LR Caçambas</string>
+    <string name="titulo_clientes">Clientes</string>
+    <string name="buscar_cliente">Buscar cliente</string>
+    <string name="cadastrar_cliente">Cadastrar cliente</string>
+    <string name="titulo_cadastro_cliente">Cadastrar cliente</string>
+    <string name="salvar">Salvar</string>
+    <string name="cancelar">Cancelar</string>
+    <string-array name="descricoes_endereco">
+        <item>Principal</item>
+        <item>Secundário</item>
+    </string-array>
 </resources>

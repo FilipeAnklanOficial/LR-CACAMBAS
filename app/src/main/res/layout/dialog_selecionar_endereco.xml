@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Qual endereço deseja editar?"
+        android:textColor="@color/azul_marinho"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Selecione um dos endereços cadastrados."
+        android:textColor="@color/cinza_hint"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:id="@+id/containerOpcoesEndereco"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical" />
+
+    <Button
+        android:id="@+id/btnCancelarSelecao"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/azul_marinho"
+        android:text="Cancelar"
+        android:textAllCaps="false"
+        android:textColor="@color/branco"
+        android:textSize="18sp" />
+
+</LinearLayout>

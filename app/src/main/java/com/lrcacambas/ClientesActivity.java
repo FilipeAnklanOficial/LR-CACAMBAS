@@ -1,0 +1,58 @@
+package com.lrcacambas;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class ClientesActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        WindowCompat.enableEdgeToEdge(getWindow());
+        setContentView(R.layout.activity_clientes);
+
+        findViewById(R.id.btnBuscarCliente).setOnClickListener(v -> {
+            Intent intent = new Intent(ClientesActivity.this, BuscarClienteActivity.class);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.btnCadastrarCliente).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    ClientesActivity.this,
+                    CadastroClienteActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        View root = findViewById(R.id.main);
+
+        int paddingLeft = root.getPaddingLeft();
+        int paddingTop = root.getPaddingTop();
+        int paddingRight = root.getPaddingRight();
+        int paddingBottom = root.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+
+            Insets systemBars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars()
+            );
+
+            v.setPadding(
+                    paddingLeft + systemBars.left,
+                    paddingTop + systemBars.top,
+                    paddingRight + systemBars.right,
+                    paddingBottom + systemBars.bottom
+            );
+
+            return insets;
+        });
+    }
+}
