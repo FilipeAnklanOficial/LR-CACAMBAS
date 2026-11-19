@@ -30,10 +30,13 @@ public class EnderecoClienteService {
 
         if (enderecos.size() >= 2) {
             throw new IllegalArgumentException(
-                    "O cliente já possui o limite de dois endereços cadastrados.");
+                    "O cliente já possui o limite de dois endereços cadastrados."
+            );
         }
 
         prepararEndereco(endereco);
+
+        validarDescricaoDisponivel(endereco);
 
         return enderecoRepository.inserir(endereco);
     }
@@ -43,7 +46,8 @@ public class EnderecoClienteService {
 
         if (endereco.getIdEndereco() == null) {
             throw new IllegalArgumentException(
-                    "O endereço precisa possuir um identificador.");
+                    "O endereço precisa possuir um identificador."
+            );
         }
 
         EnderecoCliente enderecoExistente =
@@ -51,16 +55,21 @@ public class EnderecoClienteService {
 
         if (enderecoExistente == null) {
             throw new IllegalArgumentException(
-                    "Endereço não encontrado.");
+                    "Endereço não encontrado."
+            );
         }
 
         if (!enderecoExistente.getIdCliente().equals(endereco.getIdCliente())) {
             throw new IllegalArgumentException(
-                    "Não é permitido transferir um endereço para outro cliente.");
+                    "Não é permitido transferir um endereço para outro cliente."
+            );
         }
 
         validarCliente(endereco.getIdCliente());
+
         prepararEndereco(endereco);
+
+        validarDescricaoDisponivel(endereco);
 
         enderecoRepository.atualizar(endereco);
     }
@@ -163,6 +172,48 @@ public class EnderecoClienteService {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException(
                     "Identificador do endereço inválido.");
+        }
+    }
+
+    private void validarDescricaoDisponivel(EnderecoCliente endereco) {
+        String descricao = endereco.getDescricao();
+
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Selecione a descrição do endereço."
+            );
+        }
+
+        descricao = descricao.trim();
+
+        if (!descricao.equalsIgnoreCase("Principal")
+                && !descricao.equalsIgnoreCase("Secundário")) {
+            throw new IllegalArgumentException(
+                    "A descrição deve ser Principal ou Secundário."
+            );
+        }
+
+        List<EnderecoCliente> enderecos =
+                enderecoRepository.listarPorCliente(endereco.getIdCliente());
+
+        for (EnderecoCliente existente : enderecos) {
+
+            // Na edição, ignora o próprio endereço.
+            if (endereco.getIdEndereco() != null
+                    && endereco.getIdEndereco().equals(existente.getIdEndereco())) {
+                continue;
+            }
+
+            String descricaoExistente = existente.getDescricao();
+
+            if (descricaoExistente != null
+                    && descricaoExistente.trim().equalsIgnoreCase(descricao)) {
+
+                throw new IllegalArgumentException(
+                        "Este cliente já possui um endereço cadastrado como "
+                                + descricao + "."
+                );
+            }
         }
     }
 }

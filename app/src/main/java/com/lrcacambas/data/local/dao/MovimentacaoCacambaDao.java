@@ -41,4 +41,8 @@ public interface MovimentacaoCacambaDao {
             "WHERE idCacamba = :idCacamba " +
             "AND dataRetirada IS NULL")
     int contarMovimentacoesAtivasPorCacamba(Long idCacamba);
+
+    @Query("SELECT COUNT(*) FROM movimentacoes_cacamba " +
+            "WHERE idCacamba = :idCacamba")
+    int contarTodasMovimentacoesPorCacamba(Long idCacamba);
 }

@@ -47,4 +47,8 @@ public class MovimentacaoCacambaRepository {
         return movimentacaoCacambaDao.contarMovimentacoesAtivasPorCacamba(idCacamba);
     }
 
+    public int contarTodasMovimentacoesPorCacamba(Long idCacamba) {
+        return movimentacaoCacambaDao.contarTodasMovimentacoesPorCacamba(idCacamba);
+    }
+
 }

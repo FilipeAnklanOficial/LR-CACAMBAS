@@ -22,6 +22,10 @@ public class CacambaRepository {
         cacambaDao.atualizar(cacamba);
     }
 
+    public void excluir(Cacamba cacamba) {
+        cacambaDao.excluir(cacamba);
+    }
+
     public Cacamba buscarPorId(Long id) {
         return cacambaDao.buscarPorId(id);
     }

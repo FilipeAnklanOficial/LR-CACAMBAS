@@ -308,7 +308,7 @@ public class DetalhesClienteActivity extends AppCompatActivity {
                     dpParaPx(16),
                     dpParaPx(14)
             );
-            card.setBackgroundResource(R.drawable.bg_card_endereco);
+            card.setBackgroundResource(R.drawable.bg_cards);
 
             // Título do endereço
             TextView txtDescricao = new TextView(this);
@@ -459,7 +459,7 @@ public class DetalhesClienteActivity extends AppCompatActivity {
                     dpParaPx(14),
                     dpParaPx(12)
             );
-            card.setBackgroundResource(R.drawable.bg_card_endereco);
+            card.setBackgroundResource(R.drawable.bg_cards);
 
             String descricao = endereco.getDescricao();
 

@@ -52,5 +52,25 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        // Navegação para Locações
+        findViewById(R.id.btnLocacoes).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    LocacoesActivity.class
+            );
+
+            startActivity(intent);
+        });
+
+        // Navegação para Caçambas
+        findViewById(R.id.btnCacambas).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    CacambasActivity.class
+            );
+
+            startActivity(intent);
+        });
     }
 }

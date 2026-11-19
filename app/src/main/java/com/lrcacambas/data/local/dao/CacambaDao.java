@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+import androidx.room.Delete;
 
 import com.lrcacambas.data.local.entity.Cacamba;
 import com.lrcacambas.data.local.entity.StatusCacamba;
@@ -18,6 +19,9 @@ public interface CacambaDao {
 
     @Update
     void atualizar(Cacamba cacamba);
+
+    @Delete
+    void excluir(Cacamba cacamba);
 
     @Query("SELECT * FROM cacambas WHERE idCacamba = :id")
     Cacamba buscarPorId(Long id);

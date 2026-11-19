@@ -1,7 +1,5 @@
 package com.lrcacambas.domain.service;
 
-import androidx.room.RoomDatabase;
-
 import com.lrcacambas.data.local.database.AppDatabase;
 import com.lrcacambas.data.local.entity.Cacamba;
 import com.lrcacambas.data.local.entity.Cliente;
@@ -289,6 +287,8 @@ public class LocacaoService {
 
             if (locacao.getLogradouro() == null ||
                     locacao.getLogradouro().trim().isEmpty() ||
+                    locacao.getNumero() == null ||
+                    locacao.getNumero().trim().isEmpty() ||
                     locacao.getBairro() == null ||
                     locacao.getBairro().trim().isEmpty() ||
                     locacao.getCidade() == null ||

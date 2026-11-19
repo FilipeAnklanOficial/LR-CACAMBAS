@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/bg_dialogo">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecionar cliente"
+        android:textColor="@color/azul_marinho"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/edtBuscarCliente"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_cards"
+        android:hint="Digite o nome ou apelido"
+        android:inputType="textCapSentences"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/cinza_hint" />
+
+    <ListView
+        android:id="@+id/listaClientes"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="12dp"
+        android:divider="@color/cinza_fundo"
+        android:dividerHeight="1dp"
+        android:choiceMode="none" />
+
+</LinearLayout>

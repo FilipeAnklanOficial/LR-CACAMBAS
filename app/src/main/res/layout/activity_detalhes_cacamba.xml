@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/amarelo_principal"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalhes da caçamba"
+            android:textColor="@color/azul_marinho"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_botao_dialogo_secundario"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Código"
+                android:textColor="@color/cinza_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtCodigoCacamba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="001"
+                android:textColor="@color/azul_marinho"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Situação atual"
+                android:textColor="@color/cinza_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txtStatusCacamba"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Disponível"
+                android:textColor="@color/azul_marinho"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:id="@+id/txtObservacaoStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:visibility="gone"
+                android:layout_marginBottom="8dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnAlterarStatus"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:text="Alterar situação"
+            android:textColor="@color/branco"
+            android:textSize="21sp"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/azul_marinho"
+            android:layout_marginTop="24dp" />
+
+    </LinearLayout>
+
+</ScrollView>

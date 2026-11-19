@@ -45,10 +45,17 @@ public class CadastroEnderecoActivity extends AppCompatActivity {
         appContainer = new AppContainer(getApplicationContext());
 
         idCliente = getIntent().getLongExtra("idCliente", -1);
+        idEndereco = getIntent().getLongExtra("idEndereco", -1);
+
         modoEdicao = idEndereco > 0;
 
         if (idCliente <= 0) {
-            Toast.makeText(this, "Cliente inválido.", Toast.LENGTH_LONG).show();
+            Toast.makeText(
+                    this,
+                    "Cliente inválido.",
+                    Toast.LENGTH_LONG
+            ).show();
+
             finish();
             return;
         }
@@ -56,13 +63,15 @@ public class CadastroEnderecoActivity extends AppCompatActivity {
         inicializarComponentes();
         configurarInsets();
         configurarBotoes();
-    }
 
-    private void inicializarComponentes() {
         if (modoEdicao) {
             carregarEndereco();
         }
+    }
+
+    private void inicializarComponentes() {
         spDescricaoEndereco = findViewById(R.id.spDescricaoEndereco);
+
         String[] descricoes = {"Principal", "Secundário"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -76,6 +85,7 @@ public class CadastroEnderecoActivity extends AppCompatActivity {
         );
 
         spDescricaoEndereco.setAdapter(adapter);
+
         edtLogradouro = findViewById(R.id.edtLogradouro);
         edtNumeroEndereco = findViewById(R.id.edtNumeroEndereco);
         edtBairro = findViewById(R.id.edtBairro);
@@ -95,9 +105,6 @@ public class CadastroEnderecoActivity extends AppCompatActivity {
     }
 
     private void configurarInsets() {
-        if (modoEdicao) {
-            carregarEndereco();
-        }
         View raiz = findViewById(R.id.main);
 
         int paddingLeft = raiz.getPaddingLeft();
@@ -130,9 +137,6 @@ public class CadastroEnderecoActivity extends AppCompatActivity {
     }
 
     private void configurarBotoes() {
-        if (modoEdicao) {
-            carregarEndereco();
-        }
         btnSalvarEndereco.setOnClickListener(v -> salvarEndereco());
 
         btnCancelarEndereco.setOnClickListener(v -> finish());

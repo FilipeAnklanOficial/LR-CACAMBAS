@@ -63,7 +63,10 @@ public class AppContainer {
         enderecoClienteService =
                 new EnderecoClienteService(enderecoRepository, clienteRepository);
 
-        cacambaService = new CacambaService(cacambaRepository);
+        cacambaService = new CacambaService(
+                cacambaRepository,
+                movimentacaoRepository
+        );
 
         locacaoService = new LocacaoService(
                 database,
