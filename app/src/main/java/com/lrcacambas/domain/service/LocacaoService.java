@@ -116,10 +116,19 @@ public class LocacaoService {
         });
     }
 
+    public Locacao buscarPorId(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID da locação inválido.");
+        }
+
+        return locacaoRepository.buscarPorId(id);
+    }
+
     public void trocarCacamba(
             Long idLocacao,
             Integer codigoNovaCacamba,
             MotivoTroca motivo,
+            Long valorAdicional,
             String observacao) {
 
         if (idLocacao == null || idLocacao <= 0) {
@@ -132,6 +141,11 @@ public class LocacaoService {
 
         if (motivo == null) {
             throw new IllegalArgumentException("Informe o motivo da troca.");
+        }
+
+        if (valorAdicional == null || valorAdicional < 0) {
+            throw new IllegalArgumentException(
+                    "Informe um valor adicional válido.");
         }
 
         database.runInTransaction(() -> {
@@ -195,12 +209,8 @@ public class LocacaoService {
 
             LocalDate dataTroca = LocalDate.now();
 
-            // Define se a troca gera cobrança
+            // Utiliza o valor adicional informado pelo usuário
             boolean geraCobranca = motivo == MotivoTroca.CHEIA;
-
-            long valorAdicional = geraCobranca
-                    ? locacao.getValorInicial()
-                    : 0L;
 
             // Encerra a movimentação da caçamba retirada
             movimentacaoAtual.setDataRetirada(dataTroca);
@@ -302,6 +312,20 @@ public class LocacaoService {
             locacao.setBairro(locacao.getBairro().trim());
             locacao.setCidade(locacao.getCidade().trim());
         }
+    }
+
+    public List<Locacao> listarAtivas() {
+        return locacaoRepository.listarAtivas();
+    }
+
+    public List<MovimentacaoCacamba> listarMovimentacoesPorLocacao(
+            Long idLocacao
+    ) {
+        if (idLocacao == null || idLocacao <= 0) {
+            throw new IllegalArgumentException("Locação inválida.");
+        }
+
+        return movimentacaoRepository.listarPorLocacao(idLocacao);
     }
 
     public long calcularValorTotal(Long idLocacao) {

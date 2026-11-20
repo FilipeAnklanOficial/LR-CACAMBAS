@@ -20,6 +20,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.lrcacambas.data.local.entity.Cacamba;
 import com.lrcacambas.data.local.entity.Cliente;
 import com.lrcacambas.data.local.entity.EnderecoCliente;
@@ -107,11 +108,15 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
                     WindowInsetsCompat.Type.systemBars()
             );
 
+            Insets teclado = insets.getInsets(
+                    WindowInsetsCompat.Type.ime()
+            );
+
             v.setPadding(
                     paddingLeft + systemBars.left,
                     paddingTop + systemBars.top,
                     paddingRight + systemBars.right,
-                    paddingBottom + systemBars.bottom
+                    paddingBottom + Math.max(systemBars.bottom, teclado.bottom)
             );
 
             return insets;
@@ -294,6 +299,9 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
         });
 
         dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(
+                android.R.color.transparent
+        );
     }
 
     // Endereços
@@ -567,6 +575,9 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
         });
 
         dialog.show();
+        dialog.getWindow().setBackgroundDrawableResource(
+                android.R.color.transparent
+        );
     }
 
     // Caçambas
@@ -593,17 +604,33 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
                         ));
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                             this,
                             android.R.layout.simple_spinner_item,
                             opcoes
-                    );
+                    ) {
+                        @Override
+                        public View getView(
+                                int position,
+                                View convertView,
+                                android.view.ViewGroup parent
+                        ) {
+                            TextView item = (TextView) super.getView(
+                                    position, convertView, parent
+                            );
+
+                            item.setTextColor(getColor(R.color.cinza_hint));
+
+                            return item;
+                        }
+                    };
 
                     adapter.setDropDownViewResource(
-                            android.R.layout.simple_spinner_dropdown_item
+                            R.layout.item_spinner_cacamba_dropdown
                     );
 
                     spCacamba.setAdapter(adapter);
+                    spCacamba.setSelection(0);
                     spCacamba.setEnabled(!cacambasDisponiveis.isEmpty());
                 });
 
