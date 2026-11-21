@@ -432,4 +432,30 @@ public class LocacaoService {
         });
     }
 
+    public void marcarComoInadimplente(Long idLocacao) {
+
+        if (idLocacao == null || idLocacao <= 0) {
+            throw new IllegalArgumentException("Locação inválida.");
+        }
+
+        database.runInTransaction(() -> {
+
+            Locacao locacao = locacaoRepository.buscarPorId(idLocacao);
+
+            if (locacao == null) {
+                throw new IllegalArgumentException("Locação não encontrada.");
+            }
+
+            if (locacao.getStatus() != StatusLocacao.FINALIZADA) {
+                throw new IllegalArgumentException(
+                        "Somente locações finalizadas podem ser marcadas como inadimplentes."
+                );
+            }
+
+            locacao.setStatus(StatusLocacao.INADIMPLENTE);
+
+            locacaoRepository.atualizar(locacao);
+        });
+    }
+
 }

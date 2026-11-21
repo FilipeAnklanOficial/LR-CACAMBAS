@@ -51,4 +51,8 @@ public class LocacaoRepository {
                 justificativaAjuste
         );
     }
+
+    public int contarPorStatus(StatusLocacao status) {
+        return locacaoDao.contarPorStatus(status);
+    }
 }

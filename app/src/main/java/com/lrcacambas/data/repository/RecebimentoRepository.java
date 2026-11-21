@@ -29,7 +29,19 @@ public class RecebimentoRepository {
         return recebimentoDao.listarPorLocacao(idLocacao);
     }
 
+    public List<Recebimento> listarTodos() {
+        return recebimentoDao.listarTodos();
+    }
+
     public Long calcularTotalRecebido(Long idLocacao) {
         return recebimentoDao.calcularTotalRecebido(idLocacao);
+    }
+
+    public Long calcularTotalRecebidoGeral() {
+        return recebimentoDao.calcularTotalRecebidoGeral();
+    }
+
+    public Long calcularTotalDescontos(Long idLocacao) {
+        return recebimentoDao.calcularTotalDescontos(idLocacao);
     }
 }

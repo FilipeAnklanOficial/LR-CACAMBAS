@@ -38,4 +38,7 @@ public interface LocacaoDao {
             Long valorTotalFinal,
             String justificativaAjuste
     );
+
+    @Query("SELECT COUNT(*) FROM locacoes WHERE status = :status")
+    int contarPorStatus(StatusLocacao status);
 }

@@ -73,6 +73,27 @@
             android:name=".DetalhesLocacaoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".RecebimentosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".DetalhesFinanceirosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".RegistrarRecebimentoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".NovoRecebimentoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".HistoricoRecebimentosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

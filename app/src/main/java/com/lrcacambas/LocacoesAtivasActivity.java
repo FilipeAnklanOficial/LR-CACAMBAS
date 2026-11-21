@@ -51,6 +51,11 @@ public class LocacoesAtivasActivity extends AppCompatActivity {
         inicializarComponentes();
         inicializarServicos();
         configurarBusca();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         carregarLocacoes();
     }
 

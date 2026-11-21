@@ -12,6 +12,9 @@ import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -43,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.math.BigDecimal;
 
 public class DetalhesLocacaoActivity extends AppCompatActivity {
 
@@ -59,6 +63,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
     private TextView txtTotalPagamentos;
 
     private Button btnTrocarCacamba;
+    private Button btnFinalizarLocacao;
 
     private LinearLayout containerHistoricoCacambas;
     private LinearLayout containerHistoricoRecebimentos;
@@ -80,6 +85,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         inicializarComponentes();
         inicializarServicos();
         configurarBotaoTrocarCacamba();
+        configurarBotaoFinalizarLocacao();
 
         if (idLocacao != null) {
             carregarDadosLocacao();
@@ -148,6 +154,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         containerHistoricoRecebimentos = findViewById(R.id.containerHistoricoRecebimentos);
 
         btnTrocarCacamba = findViewById(R.id.btnTrocarCacamba);
+        btnFinalizarLocacao = findViewById(R.id.btnFinalizarLocacao);
     }
 
     private void inicializarServicos() {
@@ -260,6 +267,10 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         btnTrocarCacamba.setVisibility(
                 status.equals("ATIVA") ? View.VISIBLE : View.GONE
         );
+
+        btnFinalizarLocacao.setVisibility(
+                status.equals("ATIVA") ? View.VISIBLE : View.GONE
+        );
     }
 
     private void preencherResumoFinanceiro(
@@ -316,6 +327,12 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         );
     }
 
+    private void configurarBotaoFinalizarLocacao() {
+        btnFinalizarLocacao.setOnClickListener(v ->
+                mostrarDialogoFinalizarLocacao()
+        );
+    }
+
     // HISTÓRICO DE CAÇAMBAS
 
     private void carregarHistoricoCacambas() {
@@ -358,9 +375,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
                     }
 
                     for (int i = 0; i < movimentacoes.size(); i++) {
-                        MovimentacaoCacamba movimentacao =
-                                movimentacoes.get(i);
-
+                        MovimentacaoCacamba movimentacao = movimentacoes.get(i);
                         Cacamba cacamba = cacambas.get(i);
 
                         containerHistoricoCacambas.addView(
@@ -368,7 +383,8 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
                                         movimentacao,
                                         cacamba,
                                         i == 0,
-                                        valorInicial
+                                        valorInicial,
+                                        i > 0 ? movimentacoes.get(i - 1) : null
                                 )
                         );
                     }
@@ -388,7 +404,8 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
             MovimentacaoCacamba movimentacao,
             Cacamba cacamba,
             boolean primeiraMovimentacao,
-            Long valorInicial
+            Long valorInicial,
+            MovimentacaoCacamba trocaAnterior
     ) {
         LinearLayout card = new LinearLayout(this);
         card.setOrientation(LinearLayout.VERTICAL);
@@ -428,7 +445,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         card.addView(criarTexto(
                 emUso ? "Em uso" : "Retirada",
                 14,
-                emUso ? Color.rgb(30, 120, 65) : Color.DKGRAY,
+                emUso ? Color.rgb(30, 120, 65) : Color.rgb(250, 0, 0),
                 true
         ));
 
@@ -445,46 +462,33 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
             ));
         }
 
-        if (emUso) {
-            long dias = calcularDiasAlugada(
-                    movimentacao.getDataEntrega(),
-                    LocalDate.now()
-            );
-
+        if (!emUso && movimentacao.getDataRetirada() != null) {
             card.addView(criarTexto(
-                    "Alugada há " + dias + " dias",
-                    17,
-                    Color.rgb(8, 43, 80),
-                    true
-            ));
-
-        } else {
-            if (movimentacao.getDataRetirada() != null) {
-                card.addView(criarTexto(
-                        "Retirada: "
-                                + movimentacao.getDataRetirada().format(formato),
-                        14,
-                        Color.DKGRAY,
-                        false
-                ));
-            }
-
-            long dias = calcularDiasAlugada(
-                    movimentacao.getDataEntrega(),
-                    movimentacao.getDataRetirada()
-            );
-
-            card.addView(criarTexto(
-                    "Alugada por " + dias + " dias",
-                    17,
-                    Color.rgb(8, 43, 80),
-                    true
+                    "Retirada: "
+                            + movimentacao.getDataRetirada().format(formato),
+                    14,
+                    Color.DKGRAY,
+                    false
             ));
         }
 
+        long dias = calcularDiasAlugada(
+                movimentacao.getDataEntrega(),
+                emUso ? LocalDate.now() : movimentacao.getDataRetirada()
+        );
+
+        card.addView(criarTexto(
+                "Alugada por " + dias + " dias",
+                17,
+                Color.rgb(8, 43, 80),
+                true
+        ));
+
+        NumberFormat formatoMoeda =
+                NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        // VALOR DA CAÇAMBA
         if (primeiraMovimentacao) {
-            NumberFormat formatoMoeda =
-                    NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 
             card.addView(criarTexto(
                     "Cobrança inicial: "
@@ -494,10 +498,50 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
                     false
             ));
 
-        } else {
-            String motivo = movimentacao.getMotivoTroca() != null
-                    ? movimentacao.getMotivoTroca().name()
-                    : "Não informado";
+        } else if (trocaAnterior != null) {
+
+            if (trocaAnterior.isGeraCobranca()) {
+
+                card.addView(criarTexto(
+                        "Cobrança adicional: "
+                                + formatarMoeda(
+                                trocaAnterior.getValorAdicional(),
+                                formatoMoeda
+                        ),
+                        14,
+                        Color.DKGRAY,
+                        false
+                ));
+
+            } else {
+
+                card.addView(criarTexto(
+                        "Sem cobrança adicional",
+                        14,
+                        Color.DKGRAY,
+                        false
+                ));
+            }
+        }
+
+        // INFORMAÇÕES DA TROCA QUE RETIROU ESTA CAÇAMBA
+        if (!emUso && movimentacao.getMotivoTroca() != null) {
+
+            String motivo;
+
+            switch (movimentacao.getMotivoTroca()) {
+                case CHEIA:
+                    motivo = "Caçamba cheia";
+                    break;
+
+                case PROBLEMA_OPERACIONAL:
+                    motivo = "Problema operacional";
+                    break;
+
+                default:
+                    motivo = "Não informado";
+                    break;
+            }
 
             card.addView(criarTexto(
                     "Motivo da troca: " + motivo,
@@ -506,45 +550,16 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
                     false
             ));
 
-            card.addView(criarTexto(
-                    movimentacao.isGeraCobranca()
-                            ? "Gerou cobrança adicional"
-                            : "Sem cobrança adicional",
-                    14,
-                    movimentacao.isGeraCobranca()
-                            ? Color.rgb(30, 120, 65)
-                            : Color.DKGRAY,
-                    true
-            ));
-
-            if (movimentacao.isGeraCobranca()) {
-                NumberFormat formatoMoeda =
-                        NumberFormat.getCurrencyInstance(
-                                new Locale("pt", "BR")
-                        );
+            if (movimentacao.getObservacao() != null
+                    && !movimentacao.getObservacao().trim().isEmpty()) {
 
                 card.addView(criarTexto(
-                        "Valor adicional: "
-                                + formatarMoeda(
-                                movimentacao.getValorAdicional(),
-                                formatoMoeda
-                        ),
+                        "Observação: " + movimentacao.getObservacao(),
                         14,
                         Color.DKGRAY,
                         false
                 ));
             }
-        }
-
-        if (movimentacao.getObservacao() != null
-                && !movimentacao.getObservacao().trim().isEmpty()) {
-
-            card.addView(criarTexto(
-                    "Observação: " + movimentacao.getObservacao(),
-                    14,
-                    Color.DKGRAY,
-                    false
-            ));
         }
 
         return card;
@@ -900,14 +915,66 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
         ).replace(".", ",");
     }
 
+    private void configurarMascaraMoeda(EditText campo) {
+
+        campo.addTextChangedListener(new TextWatcher() {
+
+            private boolean alterando = false;
+
+            @Override
+            public void beforeTextChanged(
+                    CharSequence s, int start, int count, int after
+            ) {}
+
+            @Override
+            public void onTextChanged(
+                    CharSequence s, int start, int before, int count
+            ) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (alterando) {
+                    return;
+                }
+
+                alterando = true;
+
+                String numeros = s.toString().replaceAll("[^0-9]", "");
+
+                if (numeros.isEmpty()) {
+                    numeros = "0";
+                }
+
+                BigDecimal valor = new BigDecimal(numeros)
+                        .movePointLeft(2);
+
+                NumberFormat formato =
+                        NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+                String valorFormatado = formato.format(valor);
+
+                campo.setText(valorFormatado);
+                campo.setSelection(valorFormatado.length());
+
+                alterando = false;
+            }
+
+        });
+    }
+
     private Long converterMoedaParaCentavos(String valor) {
+
         if (valor == null || valor.trim().isEmpty()) {
             throw new IllegalArgumentException("Valor não informado.");
         }
 
-        String valorLimpo = valor.trim()
+        String valorLimpo = valor
                 .replace("R$", "")
-                .replace(" ", "");
+                .replace("\u00A0", "")
+                .replace("\u202F", "")
+                .replace(" ", "")
+                .trim();
 
         if (valorLimpo.contains(",")) {
             valorLimpo = valorLimpo
@@ -919,7 +986,7 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
 
         if (decimal.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(
-                    "O valor adicional não pode ser negativo."
+                    "O valor não pode ser negativo."
             );
         }
 
@@ -1072,5 +1139,165 @@ public class DetalhesLocacaoActivity extends AppCompatActivity {
     private int dp(int valor) {
         return (int) (valor * getResources()
                 .getDisplayMetrics().density);
+    }
+
+    private void mostrarDialogoFinalizarLocacao() {
+
+        AppExecutors.getDatabaseExecutor().execute(() -> {
+            try {
+                Locacao locacao = locacaoService.buscarPorId(idLocacao);
+
+                if (locacao == null ||
+                        !locacao.getStatus().name().equals("ATIVA")) {
+                    throw new IllegalArgumentException(
+                            "Esta locação não está mais ativa."
+                    );
+                }
+
+                Long totalCalculado =
+                        locacaoService.calcularValorTotal(idLocacao);
+
+                runOnUiThread(() ->
+                        exibirDialogoFinalizacao(totalCalculado)
+                );
+
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(
+                        this,
+                        e.getMessage() != null
+                                ? e.getMessage()
+                                : "Não foi possível preparar a finalização.",
+                        Toast.LENGTH_LONG
+                ).show());
+            }
+        });
+    }
+
+    private void exibirDialogoFinalizacao(Long totalCalculado) {
+
+        View dialogView = getLayoutInflater().inflate(
+                R.layout.dialog_finalizar_locacao,
+                null
+        );
+
+        TextView txtTotalCalculado =
+                dialogView.findViewById(R.id.txtTotalCalculado);
+
+        EditText edtValorFinal =
+                dialogView.findViewById(R.id.edtValorFinal);
+
+        EditText edtJustificativa =
+                dialogView.findViewById(R.id.edtJustificativa);
+
+        TextView btnCancelar =
+                dialogView.findViewById(R.id.btnCancelarFinalizacao);
+
+        TextView btnConfirmar =
+                dialogView.findViewById(R.id.btnConfirmarFinalizacao);
+
+        txtTotalCalculado.setText(
+                formatarMoeda(
+                        totalCalculado,
+                        NumberFormat.getCurrencyInstance(new Locale("pt", "BR"))
+                )
+        );
+
+        edtValorFinal.setText(
+                formatarValorParaEdicao(totalCalculado)
+        );
+
+        configurarMascaraMoeda(edtValorFinal);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        dialog.show();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(
+                    android.R.color.transparent
+            );
+        }
+
+        btnCancelar.setOnClickListener(v -> dialog.dismiss());
+
+        btnConfirmar.setOnClickListener(v -> {
+
+            Long valorFinal;
+
+            try {
+                valorFinal = converterMoedaParaCentavos(
+                        edtValorFinal.getText().toString()
+                );
+            } catch (Exception e) {
+                Toast.makeText(
+                        this,
+                        e.getMessage(),
+                        Toast.LENGTH_SHORT
+                ).show();
+                return;
+            }
+
+            String justificativa = edtJustificativa
+                    .getText()
+                    .toString()
+                    .trim();
+
+            boolean houveAjuste = !valorFinal.equals(totalCalculado);
+
+            if (houveAjuste && justificativa.isEmpty()) {
+                edtJustificativa.setError(
+                        "Informe a justificativa do ajuste."
+                );
+                edtJustificativa.requestFocus();
+                return;
+            }
+
+            if (!houveAjuste) {
+                justificativa = null;
+            }
+
+            btnConfirmar.setEnabled(false);
+
+            String justificativaFinal = justificativa;
+
+            AppExecutors.getDatabaseExecutor().execute(() -> {
+                try {
+                    locacaoService.finalizarLocacao(
+                            idLocacao,
+                            valorFinal,
+                            justificativaFinal
+                    );
+
+                    runOnUiThread(() -> {
+                        dialog.dismiss();
+
+                        Toast.makeText(
+                                this,
+                                "Locação finalizada com sucesso!",
+                                Toast.LENGTH_SHORT
+                        ).show();
+
+                        carregarDadosLocacao();
+                        carregarHistoricoCacambas();
+                        carregarHistoricoRecebimentos();
+                    });
+
+                } catch (Exception e) {
+                    runOnUiThread(() -> {
+                        btnConfirmar.setEnabled(true);
+
+                        Toast.makeText(
+                                this,
+                                e.getMessage() != null
+                                        ? e.getMessage()
+                                        : "Não foi possível finalizar a locação.",
+                                Toast.LENGTH_LONG
+                        ).show();
+                    });
+                }
+            });
+        });
     }
 }

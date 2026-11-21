@@ -72,5 +72,15 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        // Navegação para Recebimentos
+        findViewById(R.id.btnRecebimentos).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    RecebimentosActivity.class
+            );
+
+            startActivity(intent);
+        });
     }
 }

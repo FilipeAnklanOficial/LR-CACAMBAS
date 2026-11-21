@@ -3,6 +3,7 @@ package com.lrcacambas.domain.service;
 import com.lrcacambas.data.local.database.AppDatabase;
 import com.lrcacambas.data.local.entity.Locacao;
 import com.lrcacambas.data.local.entity.Recebimento;
+import com.lrcacambas.data.local.entity.StatusLocacao;
 import com.lrcacambas.data.repository.LocacaoRepository;
 import com.lrcacambas.data.repository.RecebimentoRepository;
 
@@ -25,57 +26,52 @@ public class RecebimentoService {
         this.database = database;
         this.recebimentoRepository = recebimentoRepository;
         this.locacaoRepository = locacaoRepository;
-        this.locacaoService = locacaoService;;
+        this.locacaoService = locacaoService;
     }
 
     public long registrar(Recebimento recebimento) {
-
         validarRecebimento(recebimento);
 
-        Locacao locacao = locacaoRepository.buscarPorId(
-                recebimento.getIdLocacao());
+        Locacao locacao = locacaoRepository.buscarPorId(recebimento.getIdLocacao());
 
         if (locacao == null) {
-            throw new IllegalArgumentException(
-                    "Locação não encontrada.");
+            throw new IllegalArgumentException("Locação não encontrada.");
         }
 
-        long valorBruto = recebimento.getValorBruto();
+        long valorRecebido = recebimento.getValorBruto();
         long desconto = recebimento.getDescontoValor();
 
-        if (desconto > valorBruto) {
+        // O recebimento e o desconto juntos não podem ultrapassar a dívida.
+        long saldoPendente = calcularSaldoPendente(recebimento.getIdLocacao());
+
+        if (valorRecebido + desconto > saldoPendente) {
             throw new IllegalArgumentException(
-                    "O desconto não pode ser maior que o valor bruto.");
+                    "O recebimento somado ao desconto não pode ultrapassar o saldo pendente."
+            );
         }
 
-        long valorLiquido = valorBruto - desconto;
-
-        recebimento.setValorRecebido(valorLiquido);
+        // O valor recebido é exatamente o valor informado no campo bruto.
+        recebimento.setValorRecebido(valorRecebido);
 
         if (recebimento.getDataRecebimento() == null) {
             recebimento.setDataRecebimento(LocalDate.now());
         }
 
-        return database.runInTransaction(() ->
-                recebimentoRepository.inserir(recebimento)
-        );
+        return database.runInTransaction(() -> recebimentoRepository.inserir(recebimento));
     }
 
-    public double calcularPercentualDesconto(
-            Long valorBruto, Long desconto) {
+    public double calcularPercentualDesconto(Long valorRecebido, Long desconto) {
 
-        if (valorBruto == null || valorBruto <= 0 ||
-                desconto == null || desconto < 0) {
+        if (valorRecebido == null || valorRecebido < 0 ||
+                desconto == null || desconto < 0 ||
+                valorRecebido + desconto <= 0) {
             throw new IllegalArgumentException(
                     "Valores informados para o desconto são inválidos.");
         }
 
-        if (desconto > valorBruto) {
-            throw new IllegalArgumentException(
-                    "O desconto não pode ser maior que o valor bruto.");
-        }
+        long valorTotalOperacao = valorRecebido + desconto;
 
-        return (desconto.doubleValue() / valorBruto.doubleValue()) * 100;
+        return (desconto.doubleValue() / valorTotalOperacao) * 100;
     }
 
     private void validarRecebimento(Recebimento recebimento) {
@@ -122,6 +118,10 @@ public class RecebimentoService {
         return recebimentoRepository.listarPorLocacao(idLocacao);
     }
 
+    public List<Recebimento> listarTodos() {
+        return recebimentoRepository.listarTodos();
+    }
+
     public long calcularTotalRecebido(Long idLocacao) {
 
         validarIdLocacao(idLocacao);
@@ -149,8 +149,11 @@ public class RecebimentoService {
 
         Long valorTotal;
 
-        if (locacao.getStatus() == com.lrcacambas.data.local.entity.StatusLocacao.FINALIZADA) {
+        if (locacao.getStatus() == StatusLocacao.FINALIZADA ||
+                locacao.getStatus() == StatusLocacao.INADIMPLENTE) {
+
             valorTotal = locacao.getValorTotalFinal();
+
         } else {
             valorTotal = locacaoService.calcularValorTotal(idLocacao);
         }
@@ -162,7 +165,10 @@ public class RecebimentoService {
 
         long totalRecebido = calcularTotalRecebido(idLocacao);
 
-        return Math.max(0L, valorTotal - totalRecebido);
+        Long descontos = recebimentoRepository.calcularTotalDescontos(idLocacao);
+        long totalDescontos = descontos != null ? descontos : 0L;
+
+        return Math.max(0L, valorTotal - totalRecebido - totalDescontos);
     }
 
     private void validarIdLocacao(Long idLocacao) {
@@ -170,5 +176,44 @@ public class RecebimentoService {
         if (idLocacao == null || idLocacao <= 0) {
             throw new IllegalArgumentException("Identificador da locação inválido.");
         }
+    }
+
+    public long calcularTotalRecebidoGeral() {
+        Long total = recebimentoRepository.calcularTotalRecebidoGeral();
+
+        return total != null ? total : 0L;
+    }
+
+    public long calcularTotalPendentePorStatus(StatusLocacao status) {
+        List<Locacao> locacoes = locacaoRepository.listarPorStatus(status);
+
+        long total = 0;
+
+        for (Locacao locacao : locacoes) {
+            total += calcularSaldoPendente(locacao.getIdLocacao());
+        }
+
+        return total;
+    }
+
+    public long calcularTotalAReceber() {
+
+        long total = 0;
+
+        List<Locacao> locacoesAtivas =
+                locacaoRepository.listarPorStatus(StatusLocacao.ATIVA);
+
+        List<Locacao> locacoesFinalizadas =
+                locacaoRepository.listarPorStatus(StatusLocacao.FINALIZADA);
+
+        for (Locacao locacao : locacoesAtivas) {
+            total += calcularSaldoPendente(locacao.getIdLocacao());
+        }
+
+        for (Locacao locacao : locacoesFinalizadas) {
+            total += calcularSaldoPendente(locacao.getIdLocacao());
+        }
+
+        return total;
     }
 }

@@ -1,6 +1,7 @@
-package com.lrcacambas.data.local.entity;
+    package com.lrcacambas.data.local.entity;
 
-public enum StatusLocacao {
-    ATIVA,
-    FINALIZADA
-}
+    public enum StatusLocacao {
+        ATIVA,
+        FINALIZADA,
+        INADIMPLENTE
+    }

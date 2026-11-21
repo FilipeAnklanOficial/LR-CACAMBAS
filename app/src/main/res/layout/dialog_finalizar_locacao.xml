@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_dialogo"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Finalizar locação"
+        android:textColor="@color/azul_marinho"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total calculado pelo sistema"
+        android:textColor="@color/azul_marinho"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtTotalCalculado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/preto"
+        android:textSize="17sp"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valor final da locação"
+        android:textColor="@color/azul_marinho"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edtValorFinal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_cards"
+        android:padding="12dp"
+        android:singleLine="true"
+        android:inputType="number"
+        android:hint="Ex.: 550,00"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/cinza_hint"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Justificativa do ajuste (se houver)"
+        android:textColor="@color/azul_marinho"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="6dp" />
+
+    <EditText
+        android:id="@+id/edtJustificativa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_cards"
+        android:padding="12dp"
+        android:hint="Informe o motivo da alteração"
+        android:textColor="@color/preto"
+        android:textColorHint="@color/cinza_hint"
+        android:textSize="16sp"
+        android:minLines="2"
+        android:gravity="top"
+        android:inputType="textCapSentences|textMultiLine" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:id="@+id/btnCancelarFinalizacao"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Cancelar"
+            android:textColor="@color/azul_marinho"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_botao_dialogo_secundario"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/btnConfirmarFinalizacao"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Confirmar"
+            android:textColor="@color/branco"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:background="@drawable/bg_botao_dialogo"
+            android:layout_marginStart="8dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

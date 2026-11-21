@@ -257,23 +257,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-        <!-- Histórico de ajustes -->
-
-        <TextView
+        <Button
+            android:id="@+id/btnFinalizarLocacao"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="12dp"
-            android:text="Histórico de ajustes"
-            android:textColor="@color/azul_marinho"
-            android:textSize="23sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/containerHistoricoAjustes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:layout_height="76dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Finalizar locação"
+            android:textColor="@color/branco"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            android:gravity="center" />
 
     </LinearLayout>
 

@@ -24,6 +24,15 @@ public interface RecebimentoDao {
     @Query("SELECT * FROM recebimentos WHERE idLocacao = :idLocacao ORDER BY dataRecebimento DESC")
     List<Recebimento> listarPorLocacao(Long idLocacao);
 
+    @Query("SELECT * FROM recebimentos ORDER BY dataRecebimento DESC, idRecebimento DESC")
+    List<Recebimento> listarTodos();
+
     @Query("SELECT SUM(valorRecebido) FROM recebimentos WHERE idLocacao = :idLocacao")
     Long calcularTotalRecebido(Long idLocacao);
+
+    @Query("SELECT COALESCE(SUM(valorRecebido), 0) FROM recebimentos")
+    Long calcularTotalRecebidoGeral();
+
+    @Query("SELECT COALESCE(SUM(descontoValor), 0) FROM recebimentos WHERE idLocacao = :idLocacao")
+    Long calcularTotalDescontos(Long idLocacao);
 }
