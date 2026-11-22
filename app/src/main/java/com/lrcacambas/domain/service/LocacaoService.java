@@ -17,6 +17,9 @@ import com.lrcacambas.data.local.entity.MotivoTroca;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Locale;
 
 public class LocacaoService {
 
@@ -318,6 +321,63 @@ public class LocacaoService {
         return locacaoRepository.listarAtivas();
     }
 
+    public List<Locacao> listarFinalizadas() {
+
+        List<Locacao> locacoes = new ArrayList<>();
+
+        locacoes.addAll(
+                locacaoRepository.listarPorStatus(StatusLocacao.FINALIZADA)
+        );
+
+        locacoes.addAll(
+                locacaoRepository.listarPorStatus(StatusLocacao.FINALIZADA_COM_DIVIDA)
+        );
+
+        locacoes.addAll(
+                locacaoRepository.listarPorStatus(StatusLocacao.INADIMPLENTE)
+        );
+
+        locacoes.sort(
+                Comparator.comparing(
+                        Locacao::getDataFinalizacao,
+                        Comparator.nullsLast(Comparator.reverseOrder())
+                )
+        );
+
+        return locacoes;
+    }
+
+    public List<Locacao> buscarFinalizadas(String termo) {
+
+        if (termo == null || termo.trim().isEmpty()) {
+            return listarFinalizadas();
+        }
+
+        String busca = termo.trim().toLowerCase(Locale.ROOT);
+        List<Locacao> resultado = new ArrayList<>();
+
+        for (Locacao locacao : listarFinalizadas()) {
+
+            Cliente cliente = clienteRepository.buscarPorId(locacao.getIdCliente());
+
+            if (cliente == null) {
+                continue;
+            }
+
+            String nome = cliente.getNome() != null
+                    ? cliente.getNome().toLowerCase(Locale.ROOT) : "";
+
+            String apelido = cliente.getApelido() != null
+                    ? cliente.getApelido().toLowerCase(Locale.ROOT) : "";
+
+            if (nome.contains(busca) || apelido.contains(busca)) {
+                resultado.add(locacao);
+            }
+        }
+
+        return resultado;
+    }
+
     public List<MovimentacaoCacamba> listarMovimentacoesPorLocacao(
             Long idLocacao
     ) {
@@ -454,6 +514,29 @@ public class LocacaoService {
 
             locacao.setStatus(StatusLocacao.INADIMPLENTE);
 
+            locacaoRepository.atualizar(locacao);
+        });
+    }
+
+    public void finalizarComDivida(Long idLocacao) {
+        if (idLocacao == null) {
+            throw new IllegalArgumentException("Locação inválida.");
+        }
+
+        database.runInTransaction(() -> {
+            Locacao locacao = locacaoRepository.buscarPorId(idLocacao);
+
+            if (locacao == null) {
+                throw new IllegalArgumentException("Locação não encontrada.");
+            }
+
+            if (locacao.getStatus() != StatusLocacao.INADIMPLENTE) {
+                throw new IllegalStateException(
+                        "Somente locações inadimplentes podem ser finalizadas dessa forma."
+                );
+            }
+
+            locacao.setStatus(StatusLocacao.FINALIZADA_COM_DIVIDA);
             locacaoRepository.atualizar(locacao);
         });
     }

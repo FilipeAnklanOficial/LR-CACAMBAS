@@ -61,6 +61,7 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
     private Cliente clienteSelecionado;
     private EnderecoCliente enderecoSelecionado;
     private boolean enderecoExcepcionalSelecionado = false;
+    private long idClienteInicial = -1;
 
     // Dados do endereço excepcional
     private String logradouroEnderecoTemporario;
@@ -86,6 +87,8 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
         inicializarComponentes();
         configurarMascaraValor();
         inicializarServicos();
+
+        idClienteInicial = getIntent().getLongExtra("idCliente", -1);
 
         carregarClientes();
         configurarSelecaoEndereco();
@@ -157,6 +160,22 @@ public class AbrirLocacaoActivity extends AppCompatActivity {
                 txtClienteSelecionado.setOnClickListener(v ->
                         mostrarDialogoClientes()
                 );
+
+                if (idClienteInicial > 0) {
+                    for (Cliente cliente : clientesAtivos) {
+                        if (cliente.getIdCliente() == idClienteInicial) {
+                            clienteSelecionado = cliente;
+
+                            txtClienteSelecionado.setText(cliente.getNome());
+                            txtClienteSelecionado.setTextColor(
+                                    getColor(R.color.preto)
+                            );
+
+                            carregarEnderecosCliente(idClienteInicial);
+                            break;
+                        }
+                    }
+                }
             });
         });
     }

@@ -20,6 +20,19 @@ public class DatabaseProvider {
         }
     };
 
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL(
+                    "ALTER TABLE despesas ADD COLUMN quilometragem INTEGER"
+            );
+
+            database.execSQL(
+                    "ALTER TABLE despesas ADD COLUMN tanqueCompleto INTEGER"
+            );
+        }
+    };
+
     private DatabaseProvider() {
     }
 
@@ -34,7 +47,7 @@ public class DatabaseProvider {
                                     AppDatabase.class,
                                     "lr_cacambas_database"
                             )
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                             .build();
 
                 }

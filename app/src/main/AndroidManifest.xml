@@ -70,6 +70,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".LocacoesFinalizadasActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".DetalhesLocacaoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -89,9 +93,28 @@
             android:name=".NovoRecebimentoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
             android:name=".HistoricoRecebimentosActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".LocacoesInadimplentesActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".DespesasActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".CombustivelActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ManutencaoCaminhaoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ManutencaoCacambasActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
     </application>

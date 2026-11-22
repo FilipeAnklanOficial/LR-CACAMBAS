@@ -64,5 +64,10 @@ public class LocacoesActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LocacoesAtivasActivity.class);
             startActivity(intent);
         });
+
+        btnLocacoesFinalizadas.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LocacoesFinalizadasActivity.class);
+            startActivity(intent);
+        });
     }
 }

@@ -16,6 +16,8 @@ public class Despesa {
     private Long valor;
     private LocalDate dataDespesa;
     private Double litros;
+    private Long quilometragem;
+    private Boolean tanqueCompleto;
 
     public Despesa() {
     }
@@ -66,5 +68,21 @@ public class Despesa {
 
     public void setLitros(Double litros) {
         this.litros = litros;
+    }
+
+    public Long getQuilometragem() {
+        return quilometragem;
+    }
+
+    public void setQuilometragem(Long quilometragem) {
+        this.quilometragem = quilometragem;
+    }
+
+    public Boolean getTanqueCompleto() {
+        return tanqueCompleto;
+    }
+
+    public void setTanqueCompleto(Boolean tanqueCompleto) {
+        this.tanqueCompleto = tanqueCompleto;
     }
 }

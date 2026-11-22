@@ -34,6 +34,10 @@ public class DespesaRepository {
         return despesaDao.listarPorCategoria(categoria);
     }
 
+    public List<Despesa> listarAbastecimentos() {
+        return despesaDao.listarAbastecimentos();
+    }
+
     public Long calcularTotalPorCategoria(CategoriaDespesa categoria) {
         return despesaDao.calcularTotalPorCategoria(categoria);
     }

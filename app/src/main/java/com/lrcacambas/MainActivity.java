@@ -82,5 +82,15 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         });
+
+        // Navegação para Despesas
+        findViewById(R.id.btnDespesas).setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    MainActivity.this,
+                    DespesasActivity.class
+            );
+
+            startActivity(intent);
+        });
     }
 }

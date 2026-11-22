@@ -123,6 +123,14 @@ public class RecebimentosActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btnLocacoesInadimplentes.setOnClickListener(v -> {
+            Intent intent = new Intent(
+                    RecebimentosActivity.this,
+                    LocacoesInadimplentesActivity.class
+            );
+            startActivity(intent);
+        });
+
         btnHistoricoRecebimentos.setOnClickListener(v -> {
             Intent intent = new Intent(
                     RecebimentosActivity.this,

@@ -18,10 +18,18 @@ import com.lrcacambas.data.local.entity.Cliente;
 import com.lrcacambas.util.AppContainer;
 import com.lrcacambas.util.AppExecutors;
 import com.lrcacambas.util.DialogHelper;
+import com.lrcacambas.data.local.entity.EnderecoCliente;
 
 public class CadastroClienteActivity extends AppCompatActivity {
 
     private AppContainer appContainer;
+
+    private EditText edtLogradouro;
+    private EditText edtNumeroEndereco;
+    private EditText edtBairro;
+    private EditText edtCidade;
+    private EditText edtComplemento;
+    private EditText edtReferencia;
 
     private long idCliente = -1;
     private boolean modoEdicao = false;
@@ -32,12 +40,14 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
         WindowCompat.enableEdgeToEdge(getWindow());
 
-        setContentView(R.layout.activity_cadastro_cliente);
-
-        appContainer = new AppContainer(getApplicationContext());
-
         idCliente = getIntent().getLongExtra("idCliente", -1);
         modoEdicao = idCliente > 0;
+
+        setContentView(modoEdicao
+                ? R.layout.activity_editar_cliente
+                : R.layout.activity_cadastro_cliente);
+
+        appContainer = new AppContainer(getApplicationContext());
 
         configurarMascaraTelefone();
         configurarMascaraDocumento();
@@ -51,9 +61,6 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
         btnSalvar.setOnClickListener(v -> confirmarCadastro());
 
-        findViewById(R.id.btnSalvarCliente)
-                .setOnClickListener(v -> confirmarCadastro());
-
         findViewById(R.id.btnCancelarCliente)
                 .setOnClickListener(v -> finish());
 
@@ -65,7 +72,6 @@ public class CadastroClienteActivity extends AppCompatActivity {
         int paddingBottomOriginal = root.getPaddingBottom();
 
         ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-
             Insets systemBars = insets.getInsets(
                     WindowInsetsCompat.Type.systemBars()
             );
@@ -88,6 +94,15 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
             return insets;
         });
+    }
+
+    private void inicializarCamposEndereco() {
+        edtLogradouro = findViewById(R.id.edtLogradouroCliente);
+        edtNumeroEndereco = findViewById(R.id.edtNumeroEnderecoCliente);
+        edtBairro = findViewById(R.id.edtBairroCliente);
+        edtCidade = findViewById(R.id.edtCidadeCliente);
+        edtComplemento = findViewById(R.id.edtComplementoCliente);
+        edtReferencia = findViewById(R.id.edtReferenciaCliente);
     }
 
     private void configurarMascaraDocumento() {
@@ -268,10 +283,10 @@ public class CadastroClienteActivity extends AppCompatActivity {
 
         Cliente cliente = new Cliente();
 
-        cliente.setNome(edtNome.getText().toString());
-        cliente.setTelefone(edtTelefone.getText().toString());
-        cliente.setDocumento(edtDocumento.getText().toString());
-        cliente.setApelido(edtApelido.getText().toString());
+        cliente.setNome(edtNome.getText().toString().trim());
+        cliente.setTelefone(edtTelefone.getText().toString().trim());
+        cliente.setDocumento(edtDocumento.getText().toString().trim());
+        cliente.setApelido(edtApelido.getText().toString().trim());
 
         if (modoEdicao) {
             cliente.setIdCliente(idCliente);
@@ -282,9 +297,53 @@ public class CadastroClienteActivity extends AppCompatActivity {
             try {
 
                 if (modoEdicao) {
+
                     appContainer.clienteService.atualizar(cliente);
+
                 } else {
-                    appContainer.clienteService.cadastrar(cliente);
+
+                    EditText edtLogradouro = findViewById(R.id.edtLogradouroCliente);
+                    EditText edtNumero = findViewById(R.id.edtNumeroEnderecoCliente);
+                    EditText edtBairro = findViewById(R.id.edtBairroCliente);
+                    EditText edtCidade = findViewById(R.id.edtCidadeCliente);
+                    EditText edtComplemento = findViewById(R.id.edtComplementoCliente);
+                    EditText edtReferencia = findViewById(R.id.edtReferenciaCliente);
+
+                    String logradouro = edtLogradouro.getText().toString().trim();
+                    String numero = edtNumero.getText().toString().trim();
+                    String bairro = edtBairro.getText().toString().trim();
+                    String cidade = edtCidade.getText().toString().trim();
+                    String complemento = edtComplemento.getText().toString().trim();
+                    String referencia = edtReferencia.getText().toString().trim();
+
+                    if (logradouro.isEmpty() || bairro.isEmpty() || cidade.isEmpty()) {
+                        runOnUiThread(() -> Toast.makeText(
+                                this,
+                                "Preencha o logradouro, bairro e cidade.",
+                                Toast.LENGTH_LONG
+                        ).show());
+                        return;
+                    }
+
+                    EnderecoCliente endereco = new EnderecoCliente();
+
+                    endereco.setDescricao("Principal");
+                    endereco.setLogradouro(logradouro);
+                    endereco.setNumero(numero.isEmpty() ? null : numero);
+                    endereco.setBairro(bairro);
+                    endereco.setCidade(cidade);
+                    endereco.setComplemento(complemento.isEmpty() ? null : complemento);
+                    endereco.setReferencia(referencia.isEmpty() ? null : referencia);
+
+                    appContainer.database.runInTransaction(() -> {
+
+                        long novoIdCliente =
+                                appContainer.clienteService.cadastrar(cliente);
+
+                        endereco.setIdCliente(novoIdCliente);
+
+                        appContainer.enderecoClienteService.cadastrar(endereco);
+                    });
                 }
 
                 runOnUiThread(() -> {
@@ -294,26 +353,22 @@ public class CadastroClienteActivity extends AppCompatActivity {
                             modoEdicao ? "Alterações realizadas!" : "Cadastro realizado!",
                             modoEdicao
                                     ? "Os dados do cliente foram atualizados com sucesso."
-                                    : "O cliente foi cadastrado com sucesso.",
+                                    : "O cliente e seu endereço foram cadastrados com sucesso.",
                             this::finish
                     );
                 });
 
             } catch (Exception e) {
 
-                runOnUiThread(() -> {
-
-                    Toast.makeText(
-                            CadastroClienteActivity.this,
-                            e.getMessage() != null
-                                    ? e.getMessage()
-                                    : modoEdicao
-                                    ? "Erro ao atualizar cliente."
-                                    : "Erro ao cadastrar cliente.",
-                            Toast.LENGTH_LONG
-                    ).show();
-
-                });
+                runOnUiThread(() -> Toast.makeText(
+                        CadastroClienteActivity.this,
+                        e.getMessage() != null
+                                ? e.getMessage()
+                                : modoEdicao
+                                ? "Erro ao atualizar cliente."
+                                : "Erro ao cadastrar cliente.",
+                        Toast.LENGTH_LONG
+                ).show());
             }
         });
     }

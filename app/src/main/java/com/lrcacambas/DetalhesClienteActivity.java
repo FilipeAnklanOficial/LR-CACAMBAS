@@ -67,6 +67,9 @@ public class DetalhesClienteActivity extends AppCompatActivity {
         findViewById(R.id.btnAdicionarEndereco)
                 .setOnClickListener(v -> abrirCadastroEndereco());
 
+        findViewById(R.id.btnNovaLocacao)
+                .setOnClickListener(v -> abrirNovaLocacao());
+
         btnEditarEndereco.setOnClickListener(v -> selecionarEnderecoParaEditar());
 
         idCliente = getIntent().getLongExtra("idCliente", -1);
@@ -527,6 +530,17 @@ public class DetalhesClienteActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.WRAP_CONTENT
             );
         }
+    }
+
+    private void abrirNovaLocacao() {
+        Intent intent = new Intent(
+                DetalhesClienteActivity.this,
+                AbrirLocacaoActivity.class
+        );
+
+        intent.putExtra("idCliente", idCliente);
+
+        startActivity(intent);
     }
 
     private void abrirEdicaoEndereco(long idEndereco) {

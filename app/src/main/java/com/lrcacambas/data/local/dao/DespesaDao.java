@@ -28,6 +28,9 @@ public interface DespesaDao {
     @Query("SELECT * FROM despesas WHERE categoria = :categoria ORDER BY dataDespesa DESC")
     List<Despesa> listarPorCategoria(CategoriaDespesa categoria);
 
+    @Query("SELECT * FROM despesas WHERE categoria = 'COMBUSTIVEL' ORDER BY dataDespesa ASC, idDespesa ASC")
+    List<Despesa> listarAbastecimentos();
+
     @Query("SELECT SUM(valor) FROM despesas WHERE categoria = :categoria")
     Long calcularTotalPorCategoria(CategoriaDespesa categoria);
 

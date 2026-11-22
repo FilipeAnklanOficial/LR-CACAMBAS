@@ -74,6 +74,54 @@ public class DespesaService {
         return despesaRepository.listarPorCategoria(categoria);
     }
 
+    public List<Despesa> listarAbastecimentos() {
+        return despesaRepository.listarAbastecimentos();
+    }
+
+    public double calcularMediaHistorica() {
+
+        List<Despesa> abastecimentos = despesaRepository.listarAbastecimentos();
+
+        Long kmTanqueCompletoAnterior = null;
+        double litrosAcumulados = 0;
+
+        long totalKm = 0;
+        double totalLitros = 0;
+
+        for (Despesa abastecimento : abastecimentos) {
+
+            if (kmTanqueCompletoAnterior == null) {
+
+                if (Boolean.TRUE.equals(abastecimento.getTanqueCompleto())) {
+                    kmTanqueCompletoAnterior = abastecimento.getQuilometragem();
+                }
+
+                continue;
+            }
+
+            litrosAcumulados += abastecimento.getLitros();
+
+            if (Boolean.TRUE.equals(abastecimento.getTanqueCompleto())) {
+
+                long distancia = abastecimento.getQuilometragem() - kmTanqueCompletoAnterior;
+
+                if (distancia > 0 && litrosAcumulados > 0) {
+                    totalKm += distancia;
+                    totalLitros += litrosAcumulados;
+                }
+
+                kmTanqueCompletoAnterior = abastecimento.getQuilometragem();
+                litrosAcumulados = 0;
+            }
+        }
+
+        if (totalLitros == 0) {
+            return 0;
+        }
+
+        return totalKm / totalLitros;
+    }
+
     public long calcularTotalPorCategoria(CategoriaDespesa categoria) {
 
         if (categoria == null) {
@@ -125,10 +173,19 @@ public class DespesaService {
 
         if (despesa.getCategoria() == CategoriaDespesa.COMBUSTIVEL) {
 
-            if (despesa.getLitros() != null &&
-                    despesa.getLitros() <= 0) {
+            if (despesa.getLitros() == null || despesa.getLitros() <= 0) {
                 throw new IllegalArgumentException(
-                        "A quantidade de litros deve ser maior que zero.");
+                        "Informe uma quantidade válida de litros.");
+            }
+
+            if (despesa.getQuilometragem() == null || despesa.getQuilometragem() <= 0) {
+                throw new IllegalArgumentException(
+                        "Informe a quilometragem do caminhão.");
+            }
+
+            if (despesa.getTanqueCompleto() == null) {
+                throw new IllegalArgumentException(
+                        "Informe se o tanque foi completado.");
             }
         }
     }
@@ -141,8 +198,10 @@ public class DespesaService {
             despesa.setDataDespesa(LocalDate.now());
         }
 
-        if (despesa.getCategoria() == CategoriaDespesa.MANUTENCAO) {
+        if (despesa.getCategoria() != CategoriaDespesa.COMBUSTIVEL) {
             despesa.setLitros(null);
+            despesa.setQuilometragem(null);
+            despesa.setTanqueCompleto(null);
         }
     }
 
@@ -153,4 +212,6 @@ public class DespesaService {
                     "Identificador da despesa inválido.");
         }
     }
+
+
 }

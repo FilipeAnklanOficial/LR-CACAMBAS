@@ -3,5 +3,6 @@
     public enum StatusLocacao {
         ATIVA,
         FINALIZADA,
-        INADIMPLENTE
+        INADIMPLENTE,
+        FINALIZADA_COM_DIVIDA
     }
