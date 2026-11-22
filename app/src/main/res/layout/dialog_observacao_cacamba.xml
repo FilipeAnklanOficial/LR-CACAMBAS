@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/bg_dialogo">
+
+    <TextView
+        android:id="@+id/txtTituloObservacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Motivo da alteração"
+        android:textColor="@color/azul_marinho"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="Informe o motivo para continuar:"
+        android:textColor="@color/cinza_hint"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/edtObservacaoStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="110dp"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:hint="Digite a observação..."
+        android:textColor="@color/preto"
+        android:textColorHint="@color/cinza_hint"
+        android:textSize="16sp"
+        android:backgroundTint="@color/azul_marinho"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLines="4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/btnCancelarObservacao"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="CANCELAR"
+            android:textColor="@color/azul_marinho"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnSalvarObservacao"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/amarelo_principal"
+            android:text="SALVAR"
+            android:textColor="@color/azul_marinho"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>

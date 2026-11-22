@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/amarelo_principal"
+    android:fillViewport="true"
+    tools:context=".NovoRecebimentoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"
+            android:text="Novo recebimento"
+            android:textColor="@color/azul_marinho"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialogo"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dados da locação"
+                android:textColor="@color/azul_marinho"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Cliente"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNomeCliente"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/preto"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Endereço da locação"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEndereco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvSaldoPendente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_cards"
+                android:padding="16dp"
+                android:text="Saldo pendente: R$ 0,00"
+                android:textColor="@color/azul_marinho"
+                android:textSize="19sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Dados do recebimento"
+                android:textColor="@color/azul_marinho"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Valor bruto (R$)"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etValorBruto"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:hint="Informe o valor recebido"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Desconto (R$)"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etDesconto"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:hint="Informe o desconto, se houver"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tvPercentualDesconto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Desconto: 0%"
+                android:textColor="@color/cinza_hint"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Valor líquido a receber"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvValorLiquido"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:text="R$ 0,00"
+                android:textColor="@color/azul_marinho"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Forma de pagamento"
+                android:textColor="@color/azul_marinho"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/rgFormaPagamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_cards"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <RadioButton
+                    android:id="@+id/rbPix"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Pix"
+                    android:textColor="@color/preto"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rbDinheiro"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Dinheiro"
+                    android:textColor="@color/preto"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rbCartao"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Cartão"
+                    android:textColor="@color/preto"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnConfirmarRecebimento"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/azul_marinho"
+                android:text="Confirmar recebimento"
+                android:textColor="@color/branco"
+                android:textSize="21sp" />
+
+            <Button
+                android:id="@+id/btnCancelar"
+                android:layout_width="match_parent"
+                android:layout_height="76dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/azul_marinho"
+                android:text="Cancelar"
+                android:textColor="@color/branco"
+                android:textSize="21sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

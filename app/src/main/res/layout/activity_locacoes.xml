@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/amarelo_principal"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:text="Locações"
+            android:textAlignment="center"
+            android:textColor="@color/azul_marinho"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnAbrirLocacao"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Abrir locação"
+            android:textColor="@color/branco"
+            android:textSize="21sp" />
+
+        <Button
+            android:id="@+id/btnLocacoesAtivas"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Locações ativas"
+            android:textColor="@color/branco"
+            android:textSize="21sp" />
+
+        <Button
+            android:id="@+id/btnLocacoesFinalizadas"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Locações finalizadas"
+            android:textColor="@color/branco"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+</ScrollView>

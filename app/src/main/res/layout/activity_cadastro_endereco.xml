@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/amarelo_principal"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/txtTituloCadastroEndereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Cadastrar endereço"
+            android:textColor="@color/azul_marinho"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Descrição -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descrição *"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spDescricaoEndereco"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Logradouro -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Logradouro *"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtLogradouro"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Rua, avenida, estrada..."
+                android:inputType="textCapSentences"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+            <!-- Número -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Número"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtNumeroEndereco"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Número ou S/N"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+            <!-- Bairro -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Bairro *"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtBairro"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Informe o bairro"
+                android:inputType="textCapSentences"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+            <!-- Cidade -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Cidade *"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtCidade"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Informe a cidade"
+                android:inputType="textCapWords"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+            <!-- Complemento -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Complemento (opcional)"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtComplemento"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:hint="Casa, apartamento, bloco..."
+                android:inputType="textCapSentences"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+            <!-- Referência -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Ponto de referência (opcional)"
+                android:textColor="@color/preto"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtReferencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:hint="Ex.: Próximo ao mercado"
+                android:inputType="textCapSentences|textMultiLine"
+                android:minHeight="80dp"
+                android:padding="12dp"
+                android:textColor="@color/preto"
+                android:textColorHint="@color/cinza_hint" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSalvarEndereco"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginTop="28dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Salvar endereço"
+            android:textAllCaps="false"
+            android:textColor="@color/branco"
+            android:textSize="21sp" />
+
+        <Button
+            android:id="@+id/btnCancelarEndereco"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/azul_marinho"
+            android:text="Cancelar"
+            android:textAllCaps="false"
+            android:textColor="@color/branco"
+            android:textSize="21sp" />
+
+    </LinearLayout>
+
+</ScrollView>
